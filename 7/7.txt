@@ -1,0 +1,114 @@
+라이프 사이클
+ - 리액트 컴포넌트로 이루어진 페이지가 준비과정에서 시작하여 페이지가 사라질 때까지
+ - 컴포넌트를 처음으로 렌더링 할 때 어떠한 작업을 하거나 업데이트 하기 전 후로 어떤 작업을
+ 처리해야 할 수 있거나 불필요한 업데이트를 방지해야함
+ - 컴포넌트의 라이프 사이클 메소드를 사용 (클래스형 컴포넌트에서만 사용 가능)
+ - 함수형 컴포넌트에서는 Hook의 기능을 사용해 비슷한 작업을 할 수 있다.
+ -------------------------------------------------------------------------------------
+ 라이프 사이클 메소드
+  - 총 9가지가 있따.
+    - Will -> 작업을 작동하기 전에 실행하는 메소드
+    - Did -> 작업을 작동한 후에 실항하는 메소드
+  - 라이프 사이클은 총 세가지로 나눈다
+
+    - 마운트 -> Dom이 생성되고 웹 브라우저 상에 나타나는 것
+            
+        - constructor -> 컴포넌트를 새로 만들 때마다 호출되는 생성자 매소드(클래스?)
+            ㅣ
+        - getDerivedstateFromProps -> props에 있는 값을 state에 넣을 때 사용하는 매소드
+            ㅣ
+        - render -> 우리가 준비한 UI를 렌더링하는 메소드
+            ㅣ
+        - componentDidMount -> 컴포넌트가 웹 브라우저상에 나타난 후 호출하는 메소드
+
+    - 업데이트 
+        -> props가 바뀔 때
+        -> state가 바뀔 때
+        -> 부모 컴포넌트가 리렌더링될 때
+        -> this.forceUpdate로 강제로 렌더링을 트리거할 때
+
+            - getDerivedstateFromProps -> 업데이트 시작 전 호출,
+                ㅣ                        porps의 변화에 따라 state값을 변화주고 싶을 떄 사용
+                ㅣ
+            - shouldComponentUpdate -> 컴포넌트가 리렌더링을 할지 말지 결정하는 메소드
+                ㅣ
+            - true반환 시 render호출, false반환 시 여기서 작업 취소
+                ㅣ
+            - render (forceUpdate) -> 컴포넌트를 렌더링
+                ㅣ
+            - getSnapshotBeforeUpdate -> 컴포넌트 변화를 DOM에 반영하기 전에 호출하는 메소드
+                ㅣ
+            - 웹 브라우저상의 실제 DOM 변화
+                ㅣ
+            - componentDidUpdate -> 컴포넌트 업데이트 작업이 끝난 후 호출하는 메소드
+
+    - 언마운트 - 마운트의 반대과정, 컴포넌트를 DOM에서 제거하는 것
+
+        - componentWillUnmount -> 컴포넌트가 웹 브라우저상에서 사라지기 전에 호출
+
+-----------------------------------------------------------------------------------------------
+render()함수
+ - 컴포넌트 모양새를 정의 (컴포넌트에서 가장 중요한 매소드 / 필수 메소드)
+ - props오ㅘ state에 접근 할 수 있으며, 리액트 요소를 반환
+ - 이벤트 설정이 아닌 곳에서 브라우저의 DOM에 접근하거나 또는 setState를 사용하면 안된다.
+    componentDidMount에서 처리해야 한다.
+-----------------------------------------------------------------------------------------------
+constructor(props){...}
+ - 컴포넌트의 생성자 메소드
+ - 컴포넌트를 만들 때 처음 실행
+ - 초기 state를 정할 수 있다.
+ ----------------------------------------------------------------------------------------------
+ getDerivedstateFromProps 메소드
+  - props로 받아 온 값을 state에 동기화시키는 용도
+  - 컴포넌트가 마운트 될 떄와 업데이트 때 호출됨
+  ex) static getDerivedStateFromProps(nextProps, prevState) {
+    if(nextProps.value !== prevState.value) {
+        return{value : nextProps.value};
+    }
+    return null;
+  }
+-----------------------------------------------------------------------------------------------
+componentDidMount() {...}
+ - 컴포넌트를 만들고, 첫 렌더링을 마친 후 실행
+ - 다른 자바스크립트 라이브러리 또는 프레임워크의 함수를 호출
+    , 이벤트 등록, setTimeout, setInterval, 네트워크 요청 같은 비동기 작업을 처리
+-----------------------------------------------------------------------------------------------
+shouldComponentUpdate(nextProps, nextState) {...}
+ - props 또는 state를 변경했을 때 리렌더링을 시작할 지 여부를 지정하는 메소드
+ - true / false 값을 반환해야 한다. 기본적으로는 언제나 true 값을 반환
+ - 현재 props와 state는 this.props와 this.state로 접근
+ - 새로 설정될 props 또는 state는 nextProps와 nextState로 접근
+-----------------------------------------------------------------------------------------------
+getSnapshotBeforeUpdate 메소드
+ - render에서 만들어진 결과물이 브라우저에 실제로 반영되기 전에 호출
+ - 반환값은 componentDidUpdate에 세번째 파라매터인 snapshot 값으로 전달 받을 수 있따.
+ - 주로 업데이트하기 직전의 값을 참고할 일이 있을 떄 활용 (스크롤바 위치 유지...)
+ ex) getSnapshotBeforeUpdate(prevProps, prevState) {
+    if(prevState.array !== this.state.array) {
+        const {scrollTop, scrollHeight} = this.list
+        return {scrollTop, scrollHeight};
+    }
+ }
+ -----------------------------------------------------------------------------------------------
+ componentDidUpdate(prevProps, prevState, shapshot) {...}
+  - 리렌더링 완료 후 실행
+  - DOM에 관련 처리를 해도 무방하다.
+  - prevProps 또는 prevState를 사용해 컴포넌트가 이전에 가졌던 데이터를 접근할 수 있다.
+  getSnapshotBeforeUpdate에서 반환한 값이 있다면 snapshot 값을 전달 받을 수 있다.
+  -----------------------------------------------------------------------------------------------
+  componentWillUnmount(){...}
+   - 컴포넌트를 DOM에서 제거할 때 실행 componentDidMount에서 등록한 이벤트, 타이머, DOM이 있다면
+    여기서 제거해야 한다.
+-----------------------------------------------------------------------------------------------
+ componentDidCatch 메소드
+  - 컴포넌트 렌더링 도중에 에러가 발생했을 때 오류UI를 보여줄 수 있게 해준다.
+  ex) componentDidCatch(error, info) {
+    this.setState({
+        error: true
+    });
+    console.log({error, info});
+  }
+  - error는 마라미터에 어떤 에러가 발생했는지 알려주며,
+    info는 어디에 있는 코드에 오류가 발생했는지 알려줌
+  - 컴포넌트 자신에게 발생하는 에러를 잡을 수 없고 
+    this.props.children으로 전달되는 컴포넌트에서 발생하는 에러만 잡아낼 수 있다.
