@@ -1,0 +1,46 @@
+비동기 작업
+
+    - 서버의 API를 사용해야 할 때는 네트워크 송수신 과정에서 시간이 걸리기 때문에
+     작업이 즉시 처리되는 것이 아니라, 응답을 받을 때까지 기다렸다가 전달받은 응답데이터를 처리함
+     만약, 작업을 동기적으로 처리한다면  요청이 끝날 때까지 기다리는 동안 중지 상태가 되기 때문에
+     다른 작업을 할 수 없다.
+    - 비동기로 작업할 경우 웹 어플리케이션이 멈추지 않기 때문에 동시에
+     여러가지 요청을 처리하거나 다른 함수를 호출할 수 있다.
+    - 이렇게 서버 API를 호출 할 때 외에도 작업을 비동기적으로 처리해야할 때 사용함
+        ex) setTimeout함수
+
+        function printMe() {
+            console.log('hello world');
+        }
+        setTimeout(printMe, 3000);
+        console.log('대기중...');
+        
+콜백 함수
+
+    - printMe의 함수를 setTimeout함수의 인자로 집어넣었는데 이런걸 콜백 함수라 함
+
+콜백 지옥
+
+    - console.timeLog('작업시작');
+        increase(0, result => {
+            console.log(result);
+            increase(result, result => {
+                console.log(result);
+                increase(result, result => {
+                    console.log(result);
+                    console.log('작업완료');//콜백지옥
+        });
+    });
+});
+Promise
+
+    - 콜백 지옥같은 코드가 형성되지 않게 하는 방안으로 ES6에 도입된 기능
+
+async/await
+
+    -Promise를 더욱 쉽게 사용 할 수 있도록 해주는 ES8문법
+
+axios
+
+    - 현재 가장 많이 사용되고 있는 자바스크립트 HTTP 클라이언트
+        - HTTP 요청을 Promise 기반으로 처리한다.
