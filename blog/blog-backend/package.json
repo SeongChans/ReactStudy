@@ -1,0 +1,31 @@
+{
+  "name": "blog-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r esm src",
+    "start:dev": "nodemon --watch src/ -r esm src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.3.1",
+    "eslint-config-prettier": "^8.7.0",
+    "esm": "^3.2.25",
+    "joi": "^17.9.1",
+    "jsonwebtoken": "^9.0.0",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.0",
+    "koa-router": "^12.0.0",
+    "mongoose": "^6.12.3",
+    "node": "^21.2.0",
+    "nodemon": "^2.0.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0"
+  }
+}

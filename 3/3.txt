@@ -1,0 +1,90 @@
+컴포넌트
+ - 컴포넌트에는 함수형과 클래스형이 있다.
+
+ - 기본 구조(함수형) 
+ 
+ fucnction 컴포넌트명 () {
+    return (...)
+    }
+ export default 컴포넌트명;
+
+ - 기본 구조(클래스형)
+
+  class 컴포넌트명 extends Component {
+    render() {
+        return (....)
+    }
+  }
+erport default 컴포넌트명
+
+- 함수 컴포넌트의 장점 
+    - 클래스형 컴포넌트보다 선언하기가 쉽다.
+    - 메모리 자원의 사용도 클래스형보다 적다.
+    - 결과물의 파일 크기가 더 작다.
+
+- 함수 컴포넌트의 단점
+    - Hooks를 이용해야만 state와 라이프사이릌API를 사용할 수 있다. 
+        -단 공식 메뉴얼에는 함수컴포넌트와 hooks를 사용하도록 권장함
+
+
+- 모듈 내보내기(export)
+    코드 맨 아래에 export default 컴포넌트명;
+
+- 모듈 불러오기(import)
+    코드 맨 위에 import 컴포넌트명 from 주소(위치);
+
+------------------------------------------------------------------------------------
+props
+ - properties의 줄인말
+ - 컴포넌트의 속성을 설정할 때 사용하는 요소
+ - props의 값은 부모컴포넌트에서 설정 할 수 있다.
+ - props를 랜더링 할 경우 {}로 감싸 주면 됨
+
+ - children
+    - 컴포넌트 태그 사이의 내용을 보여주는 props
+
+ - 비구조할당 = 구조 분해 문법
+    - 객체에서 값을 추출하는 문법
+    - 함수의 파라미터가 객체라면 그 값을 바로 비구조화해서 사용 할 수 있다.
+
+ - propsTypes
+    - 컴포넌트의 필수 props를 지정 / props의 타입을 지정할 때 사용
+    - 지정하는 방법은 defaultProp를 설정하는 방법과 유사함
+
+   propsTypes 종류
+      - isRequired : propTypes를 지정하지 않았을 때 경고해줌
+      - array : 배열
+      - arrayOF(다른 PropType) : 특정 PropType로 이루어진 배열을 의미
+      - arrayOF(PropTypes.number) - 숫자로 이루어진 배열
+      - bool : true 혹은 false 값
+      - func : 함수
+      - number : 숫자
+      - object : 객체
+      - string : 문자열
+      - symbol : ES6의 Symbol 
+      - node : 랜더링 할 수 있는 모든 것(숫자, 문자열, 혹은 jsx코드, children도 node PropType입니다.)
+      - instanceOF(클래스) : 특정 클래스의 인스턴스(예 : instanceOF(MyClass))
+      - oneOf(['A','B']) : 주어진 배열 요소 중 값 하나
+      - oneOFType([React.PropTypes.string, PropTypes.number]) : 주어진 배열 안의 종류 중 하나
+      - objectOF(React.ProTypes.number) : 객체의 모든 키 값이 인자로 주어진 propType인 객체
+      - shape({name: PropTypes.string, num : PropTypes.number}) : 주어진 스키마를 가진 객체
+      - any: 아무종류
+
+ - 클래스형 컴포넌트에서 props 사용하기
+
+--------------------------------------------------------------------------------------
+state
+ - state란 컴포넌트 내부에서 바뀔 수 있는 값
+ - 두가지 종류의 state가 있다.
+   - 1. 클래스형 컴포넌트가 지니고 있는 state
+   - 2. 함수 컴포넌트에서 useState라는 함수를 통해 사용하는 state 
+state를 사용할 떄 주의사항 
+ - 값을 바꾸어야 할 떄는 setState 혹은 useState를 통해 전달받은 세터 함수를 사용해야 한다.
+ - 업데이트를 해야하는 경우 사본을 만들어 업데이트를 하면 된다.
+
+ ---------------------------------------------------------------------------------------
+ 
+ props는 부모 컴포넌트가 설정
+ state는 컴포넌트 자체적으로 지닌값을 컴포넌트 내부에서 업데이트 할 수 있다.
+
+Hook함수의 사용을 위해서는 useState를 사용하는 것이 좋다.

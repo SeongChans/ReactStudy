@@ -1,0 +1,39 @@
+데이터베이스(DB) - RDBMS - 관계형 데이터베이스 - MySQL, OracleDB, PostgerSQL등등
+                        - 한계 - 데이터 스키마가 고정적임 (스키마 - 데이터베이스에 넣을 데이터의 정보)
+                            새로 등록하는 데이터 형식이 기존과 다르면 기존 데이터 모두를 수정해야함
+                            데이터양이 많을수록 작업이 매우 번거로워짐
+                             - 확장성 - 데이터양이 늘어나면 여러 컴퓨터에 분산시키는 것이 아닌
+                             해당 데이터베이스 서버의 성능을 업그레이드하는 방식으로 확장해야함
+                - MongoDB - 위 한계를 극복한 문서 지향적 NoSQL 데이터베이스
+                        - 데이터베이스에 등록하는 데이터들은 유동적인 스키마를 지닐 수 있음.
+                        - 데이터양이 늘어나도 한 컴퓨터에서만 처리하는 것이 아닌 여러 컴퓨터로 
+                        분산하여 처리할 수 있도록 확장하기 쉽게 설계되어 있습니다.
+                - ACID특성 - 원자성(Atomicity), 일관성(Consistency), 고립성(Isolation), 지속성(Durability)
+                        - 데이터베이스 트랜잭션이 안전하게 처리되는 것을 보장하기 위한 성질
+서브다큐먼트(subdocument) - 문서 내부에 또 다른 문서가 위치하는 것 (문서 하나에 최대 16MB만큼 넣을 수 있음)
+                - Mongoose - Node.JS에서 사용하는 MongoDB 기반 ODM(Object Data Modelling)라이브러리
+                        데이터베이스 문서들을 자바스크립트 객체처럼 사용할 수 있음
+리액트 프로젝트에서 사용하던 ES 모듈인 import/export 문법은 Node.js에서 아직 정식으로 지원되지 않음
+Node.js에서 import/export 문법을 꼭 사용할 필요는 없지만, VSCode에서 자동 완성을 통해 모듈을 자동으로 쉽게 불러올 수 있고
+코드도 더욱 깔끔해짐
+esm - es모듈을 도와주는 라이브러리 (현재 mongoose가 v7(데모)말고 v6버전으로 설치할 것)
+
+mongoose - 스키마(schema) - 컬렉션에 들어가는 문서 내부의 각 필드가 어떤 형식으로 되어 있는지 정의하는 객체
+                - 스키마가 지원하는 타입
+                        - String : 문자열
+                        - Number : 숫자
+                        - Date : 날짜
+                        - Buffer : 파일을 담을 수 있는 버퍼
+                        - Boolean : true/false값
+                        - Mixed(Schema.Types.Mixed) : 어떤 데이터도 넣을 수 있는 형식
+                        - ObjectId(Schema.Types.ObjectId) : 객체 아이디. 주로 다른 객체를 참조할 떄 넣음
+                        - Array : 배열 형태의 값으로 []로 감싸서 사용
+                - 스키마 내부에 스키마를 넣을 수 있음
+                - 데이터베이스는 스키마 이름을 정해 주면 그 이름의 복수 형태로 데이터베이스에 컬렉션 이름을 만듦
+        - 모델(model) - 스키마를 사용하여 만드는 인스턴스로, 데이터베이스에서 실제 작업을 처리할 수 있는 함수들을 지니고 있는 객체
+                - model('이름',객체) 
+ObjectId검증 - read, remove, update 검증 시 올바른 ObjectId 형식이 아니면 500오류 발생 - 서버에서 처리하지 않아 내부적으로 문제가 발생
+        - 잘못된 id를 전달했다면 클라이언트가 잘못 보낸 것이니 400 Bad Request 오류를 띄워야함
+        - 검증 방법 - import mongoose from 'mongoose';
+                        const { ObjectId } = mongoose.Types;
+                        ObjectId.isValid(id);

@@ -1,0 +1,45 @@
+@import "../styles/utils.scss";
+
+.SassComponent {
+    display: flex;
+    background: $oc-gray-2;
+    @include media('<768px'){ // 화면 가로 크기가 768px미만이 되면 어둡게 바꿔줌
+        background: $oc-gray-9;
+    }
+    .box{//일반 css에서는 .SassComponenet .box와 마찬가지
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+    &.red{
+        // .red클래스가 .box와 함께 사용되었을 때
+        background: $red;
+        @include square(1);
+    }
+    &.orange {
+        background: $orange;
+        @include square(2);
+    }
+    &.yellow{
+        background: $yellow;
+        @include square(3);
+    }
+    &.green{
+        background: $green;
+        @include square(4);
+    }
+    &.blue {
+        background: $blue;
+        @include square(5);
+    }
+    &.indige {
+        @include square(6);
+    }
+    &.violet{
+        background: $violet;
+        @include square(7);
+    }
+    &:hover{
+        //.box 에 박스를 올렸을 때
+        background: black;
+    }
+    }
+}
